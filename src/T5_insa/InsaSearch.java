@@ -183,7 +183,9 @@ public class InsaSearch {
 		btnClose.setBounds(537, 10, 195, 63);
 		pn3.add(btnClose);
 	
-		// vo에서 담겨서 넘어온 회원의 정보를 검색창에 뿌려줄 수 있더록 처리한다
+		// vo에서 담겨서 넘어온 회원의 정보를 검색창에 뿌려줄 수 있더록 처리g한다
+		
+		
 		System.out.println("vo : " + vo);
 		txtName.setText(vo.getName());
 		txtAge.setText(vo.getAge() + "");
