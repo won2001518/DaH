@@ -1,4 +1,4 @@
-package T5_insa;
+package T5_insa1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

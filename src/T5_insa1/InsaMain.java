@@ -1,17 +1,16 @@
-package T5_insa;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+package T5_insa1;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class InsaMain {
 
@@ -83,7 +82,15 @@ public class InsaMain {
 		frame.setVisible(true);
 		
 // ------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
-
+		
+		//전체 조회 버튼을 마우스를 클릭시 수행
+		btnList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				frame.dispose();
+				new InsaList();
+			}
+		});
 		
 		// 회원 개별 조회버튼을 마우스 클릭 실행
 		btnSearch.addActionListener(new ActionListener() {

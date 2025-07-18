@@ -1,4 +1,4 @@
-package T5_insa;
+package T5_insa1;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -16,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.ButtonGroup;
 
 public class InsaSearch {
 	private InsaDAO dao = new InsaDAO();
@@ -168,15 +168,15 @@ public class InsaSearch {
 		frame.getContentPane().add(pn3);
 		pn3.setLayout(null);
 		
-		JButton btnInput = new JButton("수정하기");
-		btnInput.setFont(new Font("굴림", Font.BOLD, 22));
-		btnInput.setBounds(49, 10, 195, 63);
-		pn3.add(btnInput);
+		JButton btnUpdete = new JButton("수정하기");
+		btnUpdete.setFont(new Font("굴림", Font.BOLD, 22));
+		btnUpdete.setBounds(49, 10, 195, 63);
+		pn3.add(btnUpdete);
 		
-		JButton btnReset = new JButton("삭제하기");
-		btnReset.setFont(new Font("굴림", Font.BOLD, 22));
-		btnReset.setBounds(293, 10, 195, 63);
-		pn3.add(btnReset);
+		JButton btnDelete = new JButton("삭제하기");
+		btnDelete.setFont(new Font("굴림", Font.BOLD, 22));
+		btnDelete.setBounds(293, 10, 195, 63);
+		pn3.add(btnDelete);
 		
 		JButton btnClose = new JButton("창 닫 기");
 		btnClose.setFont(new Font("굴림", Font.BOLD, 22));
@@ -186,14 +186,14 @@ public class InsaSearch {
 		// vo에서 담겨서 넘어온 회원의 정보를 검색창에 뿌려줄 수 있더록 처리g한다
 		
 		
-		System.out.println("vo : " + vo);
+//	System.out.println("vo : " + vo);
 		txtName.setText(vo.getName());
 		txtAge.setText(vo.getAge() + "");
 		if(vo.getGender().equals("남자"))rdMale.setSelected(true);
 		if(vo.getGender().equals("여자"))rdFemale.setSelected(true);
 		// 날짜형식을 자료를 '년/월/일'로 각각 뽑아서 콤보상자에 대입시켜준다
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-M-d"); // 2025-7-10, 2025-07-10
-		System.out.println("vo : " + vo);
+//		System.out.println("vo : " + vo);
 		LocalDate date = LocalDate.parse(vo.getIpsail().substring(0, 10), dtf);
 		String strDate = date.format(dtf);
 		String[] ymds= strDate.split("-");
@@ -210,21 +210,34 @@ public class InsaSearch {
 		frame.setVisible(true);
 	// ------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
 
-		
-		// 회원 가입버튼 마우스로 클릭시 수행
-		btnInput.addActionListener(new ActionListener() {
+		// 회원자료 삭제처리
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String name = txtName.getText().trim();
+				String name = txtName.getName();
+				
+				int ans = JOptionPane.showConfirmDialog(frame, "회원정보를 삭제하시겠습니까?","회원삭제창",JOptionPane.YES_NO_OPTION);
+				if(ans == 0) {
+					int res = dao.setInsaDelete(name);
+					if(res != 0) {
+						JOptionPane.showMessageDialog(frame, "회원자료가 삭제되었습니다.");
+						frame.dispose();
+						new InsaMain();
+					}
+					else JOptionPane.showMessageDialog(frame, "회원자료 삭제 실패");
+				}
+				else JOptionPane.showMessageDialog(frame, "회원자료 삭제 취소");
+			}
+		});
+		
+		// 회원 수정버튼 마우스로 클릭시 수행
+		btnUpdete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				String age = txtAge.getText().trim();
 				String gender = "";
 				String ipsail = cbYY.getSelectedItem()+"-"+cbMM.getSelectedItem()+"-"+cbDD.getSelectedItem();
 				
 				// 유효성 검사
-				if(name.equals("")) {
-					JOptionPane.showMessageDialog(frame, "성명을 입력하세요");
-					txtName.requestFocus();
-				}
-				else if(!Pattern.matches("^[0-9]+$", age)) {
+				if(!Pattern.matches("^[0-9]+$", age)) {
 					JOptionPane.showMessageDialog(frame, "나이는 숫자로 입력하세요");
 					txtAge.requestFocus();
 				}
@@ -232,26 +245,22 @@ public class InsaSearch {
 					if(rdMale.isSelected()) gender = "남자";
 					else gender = "여자";
 					
-					// 회원명 중복처리
-					
 					
 					// 회원명 중복처리 완료후 앞에서 기록한 내용을 vo에 담아서 DB에 저장한다.
 					vo = new InsaVO();
-					vo.setName(name);
+					vo.setName(txtName.getText());
 					vo.setAge(Integer.parseInt(age));
 					vo.setGender(gender);
 					vo.setIpsail(ipsail);
 					
-					res = dao.setInsaInput(vo);
+					res = dao.setInsaUpdate(vo);
 					
 					if(res != 0) {
-						JOptionPane.showMessageDialog(frame, "회원 가입되었습니다.");
-						frame.dispose();
-						new InsaMain();
+						JOptionPane.showMessageDialog(frame, "회원정보 수정되었습니다.");
+//						frame.dispose();
+//						new InsaMain();
 					}
-					else {
-						JOptionPane.showMessageDialog(frame, "회원 가입 실패~~~");
-						txtName.requestFocus();
+					else {JOptionPane.showMessageDialog(frame, "회원정보 수정 실패");
 					}
 				}
 			}

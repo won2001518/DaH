@@ -1,4 +1,4 @@
-package T5_insa;
+package T5_insa1;
 
 public class InsaVO {
 	private int idx;
@@ -6,6 +6,11 @@ public class InsaVO {
 	private int age;
 	private String gender;
 	private String ipsail;
+
+	// 사용자가 작업에 필요한 변수들을 필드로 등록한다
+	private String cbYY; // 년도
+	private String cbMM; // 월
+	private String cbDD; // 일
 	
 	public int getIdx() {
 		return idx;
@@ -37,9 +42,28 @@ public class InsaVO {
 	public void setIpsail(String ipsail) {
 		this.ipsail = ipsail;
 	}
+	public String getCbYY() {
+		return cbYY;
+	}
+	public void setCbYY(String cbYY) {
+		this.cbYY = cbYY;
+	}
+	public String getCbMM() {
+		return cbMM;
+	}
+	public void setCbMM(String cbMM) {
+		this.cbMM = cbMM;
+	}
+	public String getCbDD() {
+		return cbDD;
+	}
+	public void setCbDD(String cbDD) {
+		this.cbDD = cbDD;
+	}
 	@Override
 	public String toString() {
-		return "InsaVO [idx=" + idx + ", name=" + name + ", age=" + age + ", gender=" + gender + ", ipsail=" + ipsail + "]";
+		return "InsaVO [idx=" + idx + ", name=" + name + ", age=" + age + ", gender=" + gender + ", ipsail=" + ipsail
+				+ ", cbYY=" + cbYY + ", cbMM=" + cbMM + ", cbDD=" + cbDD + "]";
 	}
-	
+		
 }

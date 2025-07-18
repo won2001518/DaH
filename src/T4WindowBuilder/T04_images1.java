@@ -1,4 +1,4 @@
-package T4WindowBuilder1;
+package T4WindowBuilder;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
-public class T04_images {
+public class T04_images1 {
 	JLabel lblImg1, lblImg2, lblImg3, lblImg4;
 	JLabel lbMessage;
 	int img1Cnt=0, img2Cnt=0, img3Cnt=0, img4Cnt=0;
@@ -21,10 +21,10 @@ public class T04_images {
 	private JFrame frame;
 
 	public static void main(String[] args) {
-		new T04_images();
+		new T04_images1();
 	}
 
-	public T04_images() {
+	public T04_images1() {
 		initialize();
 	}
 
@@ -88,22 +88,22 @@ public class T04_images {
 		pn2.setLayout(null);
 		
 		lblImg1 = new JLabel("");
-		lblImg1.setIcon(new ImageIcon(T04_images.class.getResource("/t4_WindowBuilder/images/1.jpg")));
+		lblImg1.setIcon(new ImageIcon(T04_images1.class.getResource("/t4_WindowBuilder/images/1.jpg")));
 		lblImg1.setBounds(10, 10, 233, 390);
 		pn2.add(lblImg1);
 		
 		lblImg2 = new JLabel("");
-		lblImg2.setIcon(new ImageIcon(T04_images.class.getResource("/t4_WindowBuilder/images/2.jpg")));
+		lblImg2.setIcon(new ImageIcon(T04_images1.class.getResource("/t4_WindowBuilder/images/2.jpg")));
 		lblImg2.setBounds(253, 10, 233, 390);
 		pn2.add(lblImg2);
 		
 		lblImg3 = new JLabel("");
-		lblImg3.setIcon(new ImageIcon(T04_images.class.getResource("/t4_WindowBuilder/images/5.jpg")));
+		lblImg3.setIcon(new ImageIcon(T04_images1.class.getResource("/t4_WindowBuilder/images/5.jpg")));
 		lblImg3.setBounds(496, 10, 233, 390);
 		pn2.add(lblImg3);
 		
 		lblImg4 = new JLabel("");
-		lblImg4.setIcon(new ImageIcon(T04_images.class.getResource("/t4_WindowBuilder/images/4.jpg")));
+		lblImg4.setIcon(new ImageIcon(T04_images1.class.getResource("/t4_WindowBuilder/images/4.jpg")));
 		lblImg4.setBounds(739, 10, 233, 390);
 		pn2.add(lblImg4);
 		

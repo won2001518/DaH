@@ -1,10 +1,11 @@
-package T5_insa;
+package T5_insa1;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.ButtonGroup;
 
 public class InsaInput {
 	private InsaDAO dao = new InsaDAO();
@@ -181,6 +181,13 @@ public class InsaInput {
 		btnClose.setFont(new Font("굴림", Font.BOLD, 22));
 		btnClose.setBounds(537, 10, 195, 63);
 		pn3.add(btnClose);
+		
+		// 오늘날짜를 가입화면의 날짜에 표시하기
+		InsaService service = new InsaService();
+		vo = service.getCurrenDate();
+		cbYY.setSelectedItem(vo.getCbYY());
+		cbMM.setSelectedItem(vo.getCbMM());
+		cbDD.setSelectedItem(vo.getCbDD());
 	
 		frame.setVisible(true);
 		

@@ -1,4 +1,4 @@
-package T4WindowBuilder1;
+package T4WindowBuilder;
 
 import java.awt.EventQueue;
 
