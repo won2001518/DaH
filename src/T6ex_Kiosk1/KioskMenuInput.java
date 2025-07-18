@@ -26,7 +26,6 @@ public class KioskMenuInput {
 	private KioskDAO dao = new KioskDAO();
 	private KioskVO vo = null;
 	private int res = 0;
-
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -101,15 +100,11 @@ public class KioskMenuInput {
 		lbl_5.setBounds(23, 332, 108, 31);
 		pn1_1.add(lbl_5);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "버거세트", "버거", "사이드" }));
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		comboBox.setFont(new Font("굴림", Font.PLAIN, 17));
-		comboBox.setBounds(158, 34, 316, 31);
-		pn1_1.add(comboBox);
+		JComboBox cbPart = new JComboBox();
+		cbPart.setModel(new DefaultComboBoxModel(new String[] { "버거세트", "버거", "사이드" }));
+		cbPart.setFont(new Font("굴림", Font.PLAIN, 17));
+		cbPart.setBounds(158, 28, 316, 31);
+		pn1_1.add(cbPart);
 
 		textField = new JTextField();
 		textField.setFont(new Font("굴림", Font.PLAIN, 18));
@@ -148,23 +143,23 @@ public class KioskMenuInput {
 		btnNewButton.setBounds(158, 391, 316, 31);
 		pn1_1.add(btnNewButton);
 
-		JLabel lblNewLabel_1 = new JLabel("상품 이미지가 표시됩니다.");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(null);
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
-		lblNewLabel_1.setBounds(511, 174, 245, 245);
-		pn1_1.add(lblNewLabel_1);
+		JLabel lblImage = new JLabel("상품 이미지가 표시됩니다.");
+		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImage.setIcon(null);
+		lblImage.setOpaque(true);
+		lblImage.setBackground(Color.LIGHT_GRAY);
+		lblImage.setBounds(511, 174, 245, 245);
+		pn1_1.add(lblImage);
 
 		JPanel pn1_2 = new JPanel();
 		pn1_2.setBounds(0, 503, 784, 58);
 		frame.getContentPane().add(pn1_2);
 		pn1_2.setLayout(null);
 
-		JButton btnNewButton_1 = new JButton("메뉴등록");
-		btnNewButton_1.setFont(new Font("굴림", Font.BOLD, 17));
-		btnNewButton_1.setBounds(21, 10, 183, 38);
-		pn1_2.add(btnNewButton_1);
+		JButton btnInput = new JButton("메뉴등록");
+		btnInput.setFont(new Font("굴림", Font.BOLD, 17));
+		btnInput.setBounds(21, 10, 183, 38);
+		pn1_2.add(btnInput);
 
 		JButton btnNewButton_1_1 = new JButton("New button");
 		btnNewButton_1_1.setFont(new Font("굴림", Font.BOLD, 17));
@@ -179,24 +174,37 @@ public class KioskMenuInput {
 		frame.setVisible(true);
 
 //------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
-		btnNewButton_1.addActionListener(new ActionListener() {
+		
+		// 상품 등록버튼 입력처리
+		btnInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String part = cbPart.getSelectedItem().toString();
 				String product = textField.getText().trim();
 				String detail = textField_1.getText().trim();
+				String content = txtrF.getText().trim();
 				String calorie = textField_2.getText().trim();
 				String price = textField_3.getText().trim();
+				String image = lblImage.getText();
 
+				
 				// 검사
 				if (product.equals("")) {
 					JOptionPane.showMessageDialog(frame, "상품명을 입력해주세요");
 					textField.requestFocus();
 				} else if (detail.equals("")) {
 					JOptionPane.showMessageDialog(frame, "간단한 설명을 입력해주세요");
-				} else if (!Pattern.matches("", calorie)) {
+				} else if (!Pattern.matches("^[0-9]+$", calorie)) {
+					JOptionPane.showMessageDialog(frame, "칼로리를 입력해주세요");
 					textField_2.requestFocus();
-				} else if (!Pattern.matches("", price)) {
+					JOptionPane.showMessageDialog(frame, "가격을 입력해주세요");
+				} else if (!Pattern.matches("^[0-9]+$", price)) {
 					textField_3.requestFocus();
-
+				}else if (image == null || image.equals("")) {
+            JOptionPane.showMessageDialog(frame, "상품 이미지를 등록해주세요");
+				}
+				else {
+					System.out.println("통과 - 처음");
 					// 메뉴 중복처리
 					vo = dao.getNamesearch(product);
 					if (vo.getProduct() != null) {
@@ -205,14 +213,29 @@ public class KioskMenuInput {
 					else {
 						// 중복처리
 						vo = new KioskVO();
+						vo.setPart(part);
 						vo.setProduct(product);
 						vo.setDetail(detail);
 						vo.setCalorie(Integer.parseInt(calorie));
+						vo.setImage(image);
 						vo.setPrice(Integer.parseInt(price));
+						System.out.println("통과11");
+						res = dao.setKioskInput(vo);
+						System.out.println("통과22");
 						
-//						res = dao.setactionPerformed
-						
-						
+						if(res != 0) {
+							JOptionPane.showMessageDialog(null, product + " 상품이 등록되었습니다.");
+							textField.setText("");
+							textField_1.setText("");
+							textField_2.setText("");
+							textField_3.setText("");
+							lblImage.setText(null);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "상품 등록 실패~~ 다시 등록해 주세요.");
+//							txtProduct.requestFocus();
+						}
+
 					}
 				}
 			}
@@ -232,7 +255,7 @@ public class KioskMenuInput {
 				} else {
 					String filePath = im.getSelectedFile().getPath();
 					String fileName = im.getSelectedFile().getPath();
-					lblNewLabel_1.setIcon(new ImageIcon(filePath));
+					lblImage.setIcon(new ImageIcon(filePath));
 
 				}
 			}

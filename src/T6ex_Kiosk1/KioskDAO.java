@@ -6,26 +6,14 @@ public class KioskDAO extends DBconn {
 
 	KioskVO vo = null;
 
-//	 상품 가입처리
-	public int actionPerformed(KioskVO vo) {
-		int res = 0;
-		try {
-			sql = "insert into burgerking values (?,?,?,?,?,default,?)";
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return res;
-	}
-	
 	
 	// 상품 중복처리?
 	public KioskVO getNamesearch(String product) {
 		vo = new KioskVO();
 		try {
-			sql = "select * from burgerking where product = ?";
+			sql = "select * from kiosk where product = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(2, product);
+			pstmt.setString(1, product);
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -35,11 +23,34 @@ public class KioskDAO extends DBconn {
 				vo.setPrice(rs.getInt("price"));
 				}
 			} catch (SQLException e) {
-				System.out.println("sql오류(getNameSearch) : " + e.getMessage());
+				System.out.println("sql오류(getNamesearch) : " + e.getMessage());
 			} finally {
 				rsClose();
 			}
 			return vo;
+	}
+
+
+	// 상품 등록처리
+	public int setKioskInput(KioskVO vo) {
+		int res = 0;
+		try {
+			sql = "insert into kiosk values (default,?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getPart());
+			pstmt.setString(2, vo.getProduct());
+			pstmt.setString(3, vo.getDetail());
+			pstmt.setString(4, vo.getContent());
+			pstmt.setInt(5, vo.getCalorie());
+			pstmt.setString(6, vo.getImage());
+			pstmt.setInt(7, vo.getPrice());
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql오류(setKioskInput) : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
 	}
 
 }
