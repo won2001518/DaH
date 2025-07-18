@@ -61,20 +61,28 @@ public class InsaList {
 		pn1.add(btnList);
 		
 		JComboBox cbCondition = new JComboBox();
+		cbCondition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		cbCondition.setFont(new Font("굴림", Font.BOLD, 18));
 		cbCondition.setModel(new DefaultComboBoxModel(new String[] {"성명", "나이", "성별", "입사일"}));
 		cbCondition.setBounds(12, 10, 136, 35);
 		pn1.add(cbCondition);
 		
 		txtCondition = new JTextField();
+		txtCondition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		txtCondition.setFont(new Font("굴림", Font.BOLD, 18));
-		txtCondition.setBounds(155, 10, 144, 35);
+		txtCondition.setBounds(155, 10, 176, 28);
 		pn1.add(txtCondition);
 		txtCondition.setColumns(10);
 		
 		JButton btnCondition = new JButton("조건검색");
 		btnCondition.setFont(new Font("굴림", Font.BOLD, 18));
-		btnCondition.setBounds(311, 10, 125, 35);
+		btnCondition.setBounds(339, 10, 125, 35);
 		pn1.add(btnCondition);
 		
 		JPanel pn2 = new JPanel();
